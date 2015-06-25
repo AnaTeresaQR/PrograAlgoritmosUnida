@@ -5,6 +5,7 @@ import MEDICIONES.file.FileCenter;
 import Objetos.Persona;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * Clase que se encarga de ordenar el archivo con el algoritmo RadixSort
@@ -27,39 +28,62 @@ public class RadixSort implements TimeTester {
      * @param a vector de personas a ordenar
      */
     public void radixSort(Persona[] a) {
-        int i, m = a[0].getCedula(), exp = 1, n = a.length;
 
-        Persona[] b = new Persona[10];
+        int max = maximosDigitos(a);
 
-        for (i = 1; i < n; i++) {
-            if (a[i].getCedula() > m) {
-                m = a[i].getCedula();
+        for (int i = 0; i < max; i++) {
+
+            int radix;
+
+            for (int j = 0; j < a.length; j++) {
+
+                radix = this.getDigitAt(a[j].getCedula(), i);
+                q[radix].offer(a[j]);
+            }
+
+            int b = 0;
+            for (int k = 0; k < q.length; k++) {
+
+                while (q[k].peek() != null) {
+                    a[b++] = (Persona) q[k].poll();
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public int maximosDigitos(Persona[] a) {
+        int max = 0;
+
+        int digitos;
+
+        for (int i = 0; i < a.length; i++) {
+
+            digitos = cantidadDigitos(a[i].getCedula());
+
+            if (digitos > max) {
+                max = digitos;
             }
         }
 
-        while (m / exp > 0) {
+        return max;
 
-            int[] bucket = new int[10];
+    }
 
-            for (i = 0; i < n; i++) {
-                bucket[(a[i].getCedula() / exp) % 10]++;
-            }
-
-            for (i = 1; i < 10; i++) {
-                bucket[i] += bucket[i - 1];
-            }
-
-            for (i = n - 1; i >= 0; i--) {
-                b[--bucket[(a[i].getCedula() / exp) % 10]] = a[i];
-            }
-
-            for (i = 0; i < n; i++) {
-                a[i] = b[i];
-            }
-
-            exp *= 10;
-
+    private int cantidadDigitos(int i) {
+        // Se asume que todos son positivos
+        if (i < 10) {
+            return 1;
         }
+
+        return 1 + cantidadDigitos(i / 10);
+    }
+
+    private int getDigitAt(int numero, int radix) {
+        return (int) (numero / Math.pow(10, radix - 1)) % 10;
     }
 
     /**
@@ -97,5 +121,19 @@ public class RadixSort implements TimeTester {
         System.out.println(s.getMillisOperation());
         System.out.println(s.getFormatTime());
     }
+
+    // Define the queues.
+    private static LinkedList[] q = {
+        new LinkedList(), // 0
+        new LinkedList(), // 1
+        new LinkedList(), // 2
+        new LinkedList(), // 3
+        new LinkedList(), // 4
+        new LinkedList(), // 5
+        new LinkedList(), // 6
+        new LinkedList(), // 7
+        new LinkedList(), // 8
+        new LinkedList() // 9
+    };
 
 }
