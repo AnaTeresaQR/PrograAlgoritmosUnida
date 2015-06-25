@@ -21,34 +21,44 @@ public class RadixSort implements TimeTester {
     }
 
     /**
-     * Método que se encarga de hacer una ordenación con personas de tipo radixSort
+     * Método que se encarga de hacer una ordenación con personas de tipo
+     * radixSort
      *
      * @param a vector de personas a ordenar
      */
     public void radixSort(Persona[] a) {
         int i, m = a[0].getCedula(), exp = 1, n = a.length;
+
         Persona[] b = new Persona[10];
+
         for (i = 1; i < n; i++) {
             if (a[i].getCedula() > m) {
                 m = a[i].getCedula();
             }
         }
+
         while (m / exp > 0) {
+
             int[] bucket = new int[10];
 
             for (i = 0; i < n; i++) {
                 bucket[(a[i].getCedula() / exp) % 10]++;
             }
+
             for (i = 1; i < 10; i++) {
                 bucket[i] += bucket[i - 1];
             }
+
             for (i = n - 1; i >= 0; i--) {
                 b[--bucket[(a[i].getCedula() / exp) % 10]] = a[i];
             }
+
             for (i = 0; i < n; i++) {
                 a[i] = b[i];
             }
+
             exp *= 10;
+
         }
     }
 
