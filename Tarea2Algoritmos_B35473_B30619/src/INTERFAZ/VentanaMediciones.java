@@ -2,6 +2,7 @@ package INTERFAZ;
 
 import MEDICIONES.AlgoritmosOrdenamiento.MergeSort;
 import MEDICIONES.AlgoritmosOrdenamiento.QuickSort;
+import MEDICIONES.AlgoritmosOrdenamiento.RadixSort;
 import MEDICIONES.AlgoritmosOrdenamiento.ShellSort;
 import MEDICIONES.Estructuras.AvlTreeTest;
 import MEDICIONES.Estructuras.ListaEnlazadaTest;
@@ -112,12 +113,13 @@ public class VentanaMediciones extends javax.swing.JFrame {
     private void inicioBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioBActionPerformed
         // TODO add your handling code here:
 
+        
         String tree = new AvlTreeTest().getFormatTime();
         String insertion = new ListaEnlazadaTest().getFormatTime();
         String mergeSort = new MergeSort().getFormatTime();
         String quickSort = new QuickSort().getFormatTime();
         String shellSort = new ShellSort().getFormatTime();
-        // RADIX SORT HERE!
+        String radixSort = new RadixSort().getFormatTime();
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n\n---- Tiempos de ejecución ----\n\n");
@@ -132,7 +134,9 @@ public class VentanaMediciones extends javax.swing.JFrame {
         sb.append(quickSort).append("\n");
         sb.append("-- ShellSort --\n");
         sb.append(shellSort).append("\n");
-        
+        sb.append("-- RadixSort --\n");
+        sb.append(radixSort).append("\n");
+
         this.tiemposArea.setText(sb.toString());
     }//GEN-LAST:event_inicioBActionPerformed
 
